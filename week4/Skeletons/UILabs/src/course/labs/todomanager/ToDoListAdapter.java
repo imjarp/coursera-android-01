@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.LayoutInflater;
 import course.labs.todomanager.ToDoItem.Status;
 
 public class ToDoListAdapter extends BaseAdapter {
@@ -93,6 +94,16 @@ public class ToDoListAdapter extends BaseAdapter {
 		// from todo_item.xml.
 		RelativeLayout itemLayout = null;
 		
+		itemLayout = convertView;
+		//if(itemLayout ==null)
+		//{
+			 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			 itemLayout = inflater.inflate(R.id.todo_item , parent,false);
+
+
+		//}
+
 		//TODO - Fill in specific ToDoItem data
 		// Remember that the data that goes in this View
 		// corresponds to the user interface elements defined 
@@ -100,12 +111,13 @@ public class ToDoListAdapter extends BaseAdapter {
 
 		//TODO - Display Title in TextView
 
-		final TextView titleView = null;
+		TextView titleView = (TextView)v.findViewById(R.id.titleView);
+		titleView.setText(toDoItem.getTitle());
 		
 		// TODO - Set up Status CheckBox
 	
-		final CheckBox statusView = null;
-		
+		CheckBox statusView = (CheckBox) v.findViewById(R.id.statusCheckBox);
+		statusView.setChecked(toDoItem.getStatus()==Status.DONE ? true : false );
 		
 		statusView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -116,21 +128,22 @@ public class ToDoListAdapter extends BaseAdapter {
 				// TODO - Set up and implement an OnCheckedChangeListener, which 
 				// is called when the user toggles the status checkbox
 
-
+				toDoItem.setStatus(isChecked ? Status.DONE ,Status.NOTDONE);
+				notifyDataSetChanged();
 			
 			}
 		});
 
 		//TODO - Display Priority in a TextView
 
-		final TextView priorityView = null;
+		TextView priorityView = (TextView)v.findViewById(R.id.priorityView);
 
-		
+		priorityView.setText(toDoItem.getPriority().toString());
 		// TODO - Display Time and Date. 
 		// Hint - use ToDoItem.FORMAT.format(toDoItem.getDate()) to get date and time String
 
-		final TextView dateView = null;
-				
+		TextView dateView = (TextView)v.findViewById(R.id.dateView);				
+		dateView.setText(ToDoItem.FORMAT.format(toDoItem.getDate()));
 
 		// Return the View you just created
 		return itemLayout;
