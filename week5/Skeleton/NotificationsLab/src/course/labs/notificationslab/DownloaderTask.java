@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.URL;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -165,7 +166,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 						// TODO: Check whether the result code is RESULT_OK
 						
 						
-						if ( getResultCode() == mParentActivity.RESULT_OK) {
+						if ( getResultCode() == Activity.RESULT_OK) {
 
 							// TODO:  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
@@ -199,7 +200,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// android.R.drawable.stat_sys_warning
 							// for the small icon. You should also setAutoCancel(true). 
 
-							Notification.Builder notificationBuilder = null;
+							Notification.Builder notificationBuilder = new Notification.Builder(mApplicationContext);
 							notificationBuilder.setAutoCancel(true)
 								.setSmallIcon(android.R.drawable.stat_sys_warning)
 								.setContent(mContentView)
