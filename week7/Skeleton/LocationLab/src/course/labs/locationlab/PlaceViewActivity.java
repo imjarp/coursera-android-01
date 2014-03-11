@@ -1,6 +1,7 @@
 package course.labs.locationlab;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlaceViewActivity extends ListActivity implements LocationListener {
@@ -43,16 +45,29 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
         // TODO - Set up the app's user interface
         // This class is a ListActivity, so it has its own ListView
         // ListView's adapter should be a PlaceViewAdapter
-
+		mAdapter = new PlaceViewAdapter(getApplicationContext());
 		
         // TODO - add a footerView to the ListView
         // You can use footer_view.xml to define the footer
-
-
+		TextView mFooterView = (TextView) getLayoutInflater().inflate(R.layout.footer_view, getListView(),false);
+		getListView().addFooterView(mFooterView);
 		
         // TODO - When the footerView's onClick() method is called, it must issue the
         // following log call
         // log("Entered footerView.OnClickListener.onClick()");
+		
+		mLastLocationReading = bestLastKnownLocation(mMinDistance, FIVE_MINS);
+		
+		mFooterView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				log("Entered footerView.OnClickListener.onClick()");
+				
+				
+			}
+		});
         
         // footerView must respond to user clicks.
         // Must handle 3 cases:
@@ -69,7 +84,7 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
         // Issue the following log call:
         // log("Location data is not available");
  		
-
+		setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -81,11 +96,17 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
 
         // TODO - Check NETWORK_PROVIDER for an existing location reading.
         // Only keep this last reading if it is fresh - less than 5 minutes old.
-
-	
+		if(mLastLocationReading.getTime()>System.currentTimeMillis())
+		{
+			
+		}
+		
 		
         // TODO - register to receive location updates from NETWORK_PROVIDER
-
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, mMinTime, mMinDistance, PlaceViewActivity.this);
+		
+		
+		
 
 		
 	}
@@ -122,6 +143,41 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
         // current location.
 
 
+	}
+	
+	private Location bestLastKnownLocation(float minAccuracy, long minTime) {
+
+		Location bestResult = null;
+		float bestAccuracy = Float.MAX_VALUE;
+		long bestTime = Long.MIN_VALUE;
+
+		List<String> matchingProviders = mLocationManager.getAllProviders();
+
+		for (String provider : matchingProviders) {
+
+			Location location = mLocationManager.getLastKnownLocation(provider);
+
+			if (location != null) {
+
+				float accuracy = location.getAccuracy();
+				long time = location.getTime();
+
+				if (accuracy < bestAccuracy) {
+
+					bestResult = location;
+					bestAccuracy = accuracy;
+					bestTime = time;
+
+				}
+			}
+		}
+
+		// Return best reading or null
+		if (bestAccuracy > minAccuracy || bestTime < minTime) {
+			return null;
+		} else {
+			return bestResult;
+		}
 	}
 
 	@Override

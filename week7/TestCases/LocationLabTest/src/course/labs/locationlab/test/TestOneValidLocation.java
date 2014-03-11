@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.robotium.solo.Solo;
 import com.robotium.solo.Timeout;
 
-import course.labs.locationlab.PlaceViewActivity;
+import course.labs.locationlab.*;
 
 
 public class TestOneValidLocation extends ActivityInstrumentationTestCase2<PlaceViewActivity> {
