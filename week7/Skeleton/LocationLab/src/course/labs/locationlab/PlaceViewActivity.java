@@ -96,6 +96,7 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
 
         // TODO - Check NETWORK_PROVIDER for an existing location reading.
         // Only keep this last reading if it is fresh - less than 5 minutes old.
+		//mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		if(mLastLocationReading.getTime()>System.currentTimeMillis())
 		{
 			
