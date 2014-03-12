@@ -87,7 +87,7 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
 				PlaceRecord tempRecord;
 				
 				for (int i = 0; i < getListAdapter().getCount(); i++) {
-					tempRecord =(PlaceRecord) getListAdapter().getItem(i);
+					tempRecord =(PlaceRecord)  ((PlaceViewAdapter) getListAdapter()).getList().get(i);
 					if(tempRecord.intersects(mLastLocationReading))
 						isNew=true;
 					
