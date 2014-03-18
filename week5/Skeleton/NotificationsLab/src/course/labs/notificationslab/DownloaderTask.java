@@ -35,8 +35,8 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 	private static final boolean HAS_NETWORK_CONNECTION = true;
 
 	// Raw feed file IDs used if you do not have a stable connection
-	public static final int txtFeeds[] = { R.raw.tswift, R.raw.rblack,
-			R.raw.lgaga };
+	public static final int txtFeeds[] = {  R.raw.tswift,R.raw.rblack,R.raw.lgaga 
+			 };
 
 	// Constructor
 	public DownloaderTask(MainActivity parentActivity) {
