@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,6 +22,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import course.labs.contentproviderlab.provider.PlaceBadgesContract;
+import course.labs.contentproviderlab.provider.PlaceBadgeContentProvider;
 
 public class PlaceViewAdapter extends CursorAdapter {
 
@@ -31,6 +31,9 @@ public class PlaceViewAdapter extends CursorAdapter {
 	private static LayoutInflater inflater = null;
 	private Context mContext;
 	private String mBitmapStoragePath;
+	PlaceBadgeContentProvider mPlaceBadgeContentProvider;
+	
+	
 
 	public PlaceViewAdapter(Context context, Cursor cursor, int flags) {
 		super(context, cursor, flags);
@@ -166,7 +169,7 @@ public class PlaceViewAdapter extends CursorAdapter {
 		list.clear();
 
 		// TODO - delete all records in the ContentProvider
-
+		
 
         
         
