@@ -59,7 +59,7 @@ public class PlaceViewActivity extends ListActivity implements
 
         // TODO - Set up the app's user interface
         // This class is a ListActivity, so it has its own ListView
-		setContentView(R.layout.place_badge_view);
+		//setContentView(R.layout.place_badge_view);
  
 
         // TODO - add a footerView to the ListView
@@ -108,7 +108,9 @@ public class PlaceViewActivity extends ListActivity implements
 			        // log("Starting Place Download");
 					log("Starting Place Download");
 					PlaceDownloaderTask mPlaceDownloaderTask = new PlaceDownloaderTask(PlaceViewActivity.this);
-					mPlaceDownloaderTask.doInBackground(mLastLocationReading);
+					
+					mPlaceDownloaderTask.execute(mLastLocationReading);
+					
 					footerView.setEnabled(true);
 					
 				}
@@ -234,7 +236,6 @@ public class PlaceViewActivity extends ListActivity implements
 		log("Entered onCreateLoader()");
 
 		// TODO - Create a new CursorLoader and return it
-		String selectColumns ="";
 		
 		String columnsToExtract [] = new String[]
 				{

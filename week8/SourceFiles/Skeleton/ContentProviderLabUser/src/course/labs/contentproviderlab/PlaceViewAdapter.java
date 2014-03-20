@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -22,7 +23,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import course.labs.contentproviderlab.provider.PlaceBadgesContract;
-import course.labs.contentproviderlab.provider.PlaceBadgeContentProvider;
+
 
 public class PlaceViewAdapter extends CursorAdapter {
 
@@ -31,7 +32,7 @@ public class PlaceViewAdapter extends CursorAdapter {
 	private static LayoutInflater inflater = null;
 	private Context mContext;
 	private String mBitmapStoragePath;
-	PlaceBadgeContentProvider mPlaceBadgeContentProvider;
+	
 	
 	
 
@@ -72,12 +73,14 @@ public class PlaceViewAdapter extends CursorAdapter {
 		// the current set of PlaceRecords. Use the 
 		// getPlaceRecordFromCursor() method to add the
 		// current place to the list
-		
-
-            
-            
-            
-            
+			list.clear();
+		if(newCursor.moveToFirst())
+		{
+			while (newCursor.moveToNext()) {
+				list.add(getPlaceRecordFromCursor(newCursor));				
+			}
+			
+		}
             
             // Set the NotificationURI for the new cursor
 			newCursor.setNotificationUri(mContext.getContentResolver(),
@@ -150,8 +153,16 @@ public class PlaceViewAdapter extends CursorAdapter {
 
 			// TODO - Insert new record into the ContentProvider
 
+			ContentValues content = new ContentValues();
 			
+			content.put(PlaceBadgesContract.FLAG_BITMAP_PATH, listItem.getFlagBitmapPath());
+			content.put(PlaceBadgesContract.COUNTRY_NAME, listItem.getCountryName());
+			content.put(PlaceBadgesContract.PLACE_NAME, listItem.getPlace());
+			content.put(PlaceBadgesContract.LAT, listItem.getLon());
+			content.put(PlaceBadgesContract.LON, listItem.getLat());
 
+			mContext.getContentResolver().insert(PlaceBadgesContract.CONTENT_URI, content);
+			mContext.getContentResolver().notifyChange(PlaceBadgesContract.CONTENT_URI,null);
 		
         
         
@@ -169,10 +180,7 @@ public class PlaceViewAdapter extends CursorAdapter {
 		list.clear();
 
 		// TODO - delete all records in the ContentProvider
-		
-
-        
-        
+		mContext.getContentResolver().delete(PlaceBadgesContract.CONTENT_URI, null, null);
         
 	}
 
