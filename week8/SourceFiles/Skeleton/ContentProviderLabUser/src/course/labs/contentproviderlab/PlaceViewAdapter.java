@@ -73,7 +73,7 @@ public class PlaceViewAdapter extends CursorAdapter {
 		// the current set of PlaceRecords. Use the 
 		// getPlaceRecordFromCursor() method to add the
 		// current place to the list
-			list.clear();
+		list.clear();
 		if(newCursor.moveToFirst())
 		{
 			while (newCursor.moveToNext()) {

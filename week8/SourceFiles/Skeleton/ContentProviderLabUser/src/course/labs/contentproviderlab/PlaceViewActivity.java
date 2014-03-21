@@ -3,8 +3,8 @@ package course.labs.contentproviderlab;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
-import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -19,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import course.labs.contentproviderlab.provider.PlaceBadgesContract;
@@ -119,14 +118,17 @@ public class PlaceViewActivity extends ListActivity implements
 		});
         		// TODO - Create and set empty PlaceViewAdapter
         // ListView's adapter should be a PlaceViewAdapter called mCursorAdapter
-		mCursorAdapter = new PlaceViewAdapter(getApplicationContext(), mCursor, 0);
+		//mCursorAdapter = new PlaceViewAdapter(getApplicationContext(), mCursor, 0);
 		
-		
-		
+		ContentResolver contentResolver = getContentResolver();
+        Cursor cursor = contentResolver.query(PlaceBadgesContract.CONTENT_URI, null, null, null, null);
+        mCursorAdapter = new PlaceViewAdapter(this, cursor, 0);
+        setListAdapter(mCursorAdapter);
+        
 		// TODO - Initialize a CursorLoader
 		getLoaderManager().initLoader(0, null, this);
 		
-		setListAdapter(mCursorAdapter);
+		
         
 	}
 
