@@ -146,7 +146,10 @@ public class MoocProvider extends ContentProvider {
 
         // TODO: Perform a query on the database with the given parameters
     	
-    	return null;
+    	Cursor c = mDB.query(tableName, projection, selection, selectionArgs, sortOrder);
+    	c.setNotificationUri(getContext().getContentResolver(), uri);
+    	
+    	return c;
     }
 
     @Override
